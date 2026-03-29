@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catalina Giraldo Aguirre — Portfolio</title>
+    <meta
+      name="description"
+      content="Interactive Media Designer · Cali, Colombia"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body>
+    <div class="page">
+      <aside class="sidebar" aria-label="Perfil">
+        <img
+          class="sidebar__avatar"
+          src="assets/profile/avatar.jpg"
+          alt="Catalina Giraldo Aguirre"
+          width="120"
+          height="120"
+        />
+        <h1 class="sidebar__name">Catalina Giraldo Aguirre</h1>
+        <p class="sidebar__bio">
+          With four years of experience, I specialize in visual and interaction
+          design, along with user experience research and testing. My focus lies
+          in brand identity creation, UI, and UX.
+        </p>
+        <div class="sidebar__dots" aria-label="Disponible para trabajo">
+          <span class="sidebar__dot sidebar__dot--on" title="Disponible"></span>
+          <span class="sidebar__dot sidebar__dot--off" title=""></span>
+        </div>
+        <ul class="sidebar__meta">
+          <li class="sidebar__meta-item">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+            <span>Cali, Colombia</span>
+          </li>
+          <li class="sidebar__meta-item">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="M2 7l10 7 10-7"/>
+            </svg>
+            <a href="mailto:catagiraldoaguirre@gmail.com">catagiraldoaguirre@gmail.com</a>
+          </li>
+        </ul>
+      </aside>
+
+      <main class="content" aria-label="Portfolio">
+        <div class="bento-grid">
+
+          <!-- Columna izquierda (desktop): hero → instagram → projects -->
+          <div class="bento-col bento-col--left">
+
+          <!-- Foto portrait (mobile: order 2 / desktop: col izquierda fila 1) -->
+          <div class="card card-hero">
+            <img
+              src="assets/hero/portrait.jpg"
+              alt="Catalina — retrato artístico con luz verde y roja"
+              loading="eager"
+            />
+          </div>
+
+          <!-- Instagram (mobile: order 4 / desktop: col izquierda fila 2) -->
+          <div class="card social-card card-instagram">
+            <a
+              href="https://www.instagram.com/data_arte/"
+              class="social-card__overlay"
+              aria-label="Ver Instagram @data_arte"
+              target="_blank"
+              rel="noopener noreferrer"
+              tabindex="-1"
+            ></a>
+            <div class="social-card__header">
+              <div class="social-card__brand">
+                <div
+                  class="social-card__logo social-card__logo--instagram"
+                  aria-hidden="true"
+                >
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                    />
+                  </svg>
+                </div>
+                <span class="social-card__subtitle">My instagram: @data_arte</span>
+              </div>
+              <button
+                type="button"
+                class="btn-follow btn-follow--instagram"
+                data-follow-url="https://www.instagram.com/data_arte/"
+                aria-label="Follow en Instagram"
+              >
+                Follow <strong>355</strong>
+              </button>
+            </div>
+            <!-- Feed Instagram en tiempo real — Behold.so -->
+            <behold-widget feed-id="vJc4DyKdnY7gZ9fVuFpQ"></behold-widget>
+            <script>
+              (() => {
+                const d = document, s = d.createElement("script");
+                s.type = "module";
+                s.src = "https://w.behold.so/widget.js";
+                d.head.append(s);
+              })();
+            </script>
+          </div>
+
+          <!-- Proyectos Nobel + Fruto (mobile: order 6 / desktop: col izquierda fila 3) -->
+          <div class="card-projects">
+            <a
+              class="project-img-card"
+              href="https://www.behance.net/catagiraldoaguirre"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Premios Nobel de Economía en Realidad Aumentada"
+            >
+              <img
+                src="assets/projects/nobel.jpg"
+                alt="Premios Nobel de Economía en Realidad Aumentada"
+                loading="lazy"
+              />
+            </a>
+            <a
+              class="project-img-card"
+              href="https://www.behance.net/catagiraldoaguirre"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Fruto Dorado - Aceite bronceador a base de chontaduro"
+            >
+              <img
+                src="assets/projects/fruto-dorado.jpg"
+                alt="Fruto Dorado - Aceite bronceador a base de chontaduro"
+                loading="lazy"
+              />
+            </a>
+          </div>
+
+          </div><!-- /bento-col--left -->
+
+          <!-- Columna derecha (desktop): quote → behance → right-col -->
+          <div class="bento-col bento-col--right">
+
+          <!-- Frase (mobile: order 1 / desktop: col derecha fila 1) -->
+          <div class="card card-quote" role="complementary">
+            <span class="card-quote__icon" aria-hidden="true">❝</span>
+            <p class="card-quote__text">
+              Together, we can achieve boundless creative possibilities. 💗
+            </p>
+          </div>
+
+          <!-- Behance (mobile: order 3 / desktop: col derecha fila 2) -->
+          <div class="card social-card card-behance">
+            <a
+              href="https://www.behance.net/catagiraldoaguirre"
+              class="social-card__overlay"
+              aria-label="Ver portfolio en Behance"
+              target="_blank"
+              rel="noopener noreferrer"
+              tabindex="-1"
+            ></a>
+            <div class="social-card__header">
+              <div class="social-card__brand">
+                <div
+                  class="social-card__logo social-card__logo--behance"
+                  aria-hidden="true"
+                >
+                  <img
+                    src="https://cdn.simpleicons.org/behance/ffffff"
+                    alt="Behance"
+                    width="28"
+                    height="28"
+                    style="display:block;"
+                  />
+                </div>
+                <span class="social-card__subtitle">My portfolio on Behance</span>
+              </div>
+              <button
+                type="button"
+                class="btn-follow btn-follow--behance"
+                data-follow-url="https://www.behance.net/catagiraldoaguirre"
+                aria-label="Follow en Behance"
+              >
+                Follow <strong>198</strong>
+              </button>
+            </div>
+            <div class="thumbs-grid" role="list" data-behance-grid>
+              <!-- fallback estático — initBehanceFeed() los reemplaza si el fetch es exitoso -->
+              <a
+                class="thumb-item"
+                href="https://www.behance.net/gallery/210152435/Ascend-ESPN-UI-Design-System"
+                target="_blank"
+                rel="noopener noreferrer"
+                role="listitem"
+                aria-label="Proyecto Behance Ascend ESPN"
+              >
+                <img
+                  src="https://mir-s3-cdn-cf.behance.net/projects/404/a97d89210152435.Y3JvcCwxMDc2LDg0MSwwLDA.png"
+                  alt="Ascend ESPN UI Design System"
+                  loading="lazy"
+                />
+              </a>
+              <a
+                class="thumb-item"
+                href="https://www.behance.net/gallery/185585443/enerBit-UI-UX-Web-development"
+                target="_blank"
+                rel="noopener noreferrer"
+                role="listitem"
+                aria-label="Proyecto Behance enerBit"
+              >
+                <img
+                  src="https://mir-s3-cdn-cf.behance.net/projects/404/f00ac3185585443.Y3JvcCwxNDAwLDEwOTUsMCww.jpg"
+                  alt="enerBit UI UX Web development"
+                  loading="lazy"
+                />
+              </a>
+              <a
+                class="thumb-item"
+                href="https://www.behance.net/gallery/158364057/Telle-Live-Skill-Learning-UXUI-Design"
+                target="_blank"
+                rel="noopener noreferrer"
+                role="listitem"
+                aria-label="Proyecto Behance Telle Live Skill Learning"
+              >
+                <img
+                  src="https://mir-s3-cdn-cf.behance.net/projects/404/705a4a158364057.Y3JvcCwyODAwLDIxOTAsMCww.png"
+                  alt="Telle Live Skill Learning"
+                  loading="lazy"
+                />
+              </a>
+              <a
+                class="thumb-item"
+                href="https://www.behance.net/gallery/155841649/Gist-Group-workspace-app"
+                target="_blank"
+                rel="noopener noreferrer"
+                role="listitem"
+                aria-label="Proyecto Behance Gist Group"
+              >
+                <img
+                  src="https://mir-s3-cdn-cf.behance.net/projects/404/404a7b155841649.Y3JvcCwyMzU3LDE4NDQsMjA0LDA.jpg"
+                  alt="Gist Group workspace app"
+                  loading="lazy"
+                />
+              </a>
+              <a
+                class="thumb-item"
+                href="https://www.behance.net/gallery/150729223/LEGO-OOH-EXPERIENCE"
+                target="_blank"
+                rel="noopener noreferrer"
+                role="listitem"
+                aria-label="Proyecto Behance LEGO OOH Experience"
+              >
+                <img
+                  src="https://mir-s3-cdn-cf.behance.net/projects/404/f79b87150729223.Y3JvcCwyODAwLDIxOTAsMCww.jpg"
+                  alt="LEGO OOH Experience"
+                  loading="lazy"
+                />
+              </a>
+              <a
+                class="thumb-item"
+                href="https://www.behance.net/gallery/173478949/DataHub-UI-UX-"
+                target="_blank"
+                rel="noopener noreferrer"
+                role="listitem"
+                aria-label="Proyecto Behance DataHub"
+              >
+                <img
+                  src="https://mir-s3-cdn-cf.behance.net/projects/404/c199b9173478949.Y3JvcCwxMTE0LDg3MSwwLDA.png"
+                  alt="DataHub UI UX"
+                  loading="lazy"
+                />
+              </a>
+            </div>
+          </div>
+
+          <!-- LinkedIn + Video + Dynamite (mobile: order 5 / desktop: col derecha fila 3) -->
+          <div class="card-right-col">
+            <a
+              href="https://www.linkedin.com/in/catalina-giraldo-aguirre/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card-linkedin"
+              aria-label="Ver LinkedIn"
+            >
+              <img
+                src="assets/linkedin/linkedin-card.jpg"
+                alt="LinkedIn Catalina"
+                loading="lazy"
+              />
+            </a>
+
+            <div class="card card-video">
+              <video
+                src="assets/video/showreel.mp4"
+                autoplay
+                loop
+                muted
+                playsinline
+                preload="metadata"
+                aria-label="Showreel de Catalina Giraldo Aguirre"
+              ></video>
+              <div class="card-video__badge" aria-hidden="true">RGX</div>
+              <div class="card-video__controls" aria-label="Controles de video">
+                <button
+                  type="button"
+                  class="card-video__btn"
+                  aria-label="Play/Pause"
+                  data-video-toggle
+                >
+                  <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <path
+                      d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                    />
+                    <path
+                      d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"
+                    />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  class="card-video__btn"
+                  aria-label="Avanzar 5 segundos"
+                  data-video-next
+                >
+                  <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <path
+                      d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.75l-7.45 5.17A.5.5 0 0 1 6.5 13.5v-3.17l-7.45 5.17A.5.5 0 0 1-1.5 15V1A.5.5 0 0 1-.95.33L6.5 5.5V2.5a.5.5 0 0 1 .55-.5L15 6.83V4a.5.5 0 0 1 .5-.5z"
+                    />
+                  </svg>
+                </button>
+                <div class="card-video__controls-spacer"></div>
+                <button
+                  type="button"
+                  class="card-video__btn"
+                  aria-label="Pantalla completa"
+                  data-video-fullscreen
+                >
+                  <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <path
+                      d="M1.5 1h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 1zm9 0h4A1.5 1.5 0 0 1 16 2.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1 0-1zM.5 10a.5.5 0 0 1 .5.5v4c0 .276.224.5.5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <a
+              href="https://www.behance.net/catagiraldoaguirre"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card card-dynamite"
+              aria-label="Dynamite Eyebrows - Cejas de otro mundo"
+            >
+              <img
+                src="assets/projects/dynamite-eyebrows.jpg"
+                alt="Dynamite Eyebrows - Cejas de otro mundo"
+                loading="lazy"
+              />
+            </a>
+          </div><!-- /card-right-col -->
+
+          </div><!-- /bento-col--right -->
+
+        </div><!-- /bento-grid -->
+
+        <footer class="footer-link" role="contentinfo">
+          <a
+            href="https://www.instagram.com/icesidmi"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-ig-link"
+            aria-label="Ver Design work en Instagram @icesidmi"
+          >
+            <svg
+              class="footer-ig-link__icon"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              style="
+                background: radial-gradient(
+                  circle at 30% 107%,
+                  #fdf497 0%,
+                  #fdf497 5%,
+                  #fd5949 45%,
+                  #d6249f 60%,
+                  #285aeb 90%
+                );
+                padding: 6px;
+                border-radius: 8px;
+              "
+            >
+              <path
+                fill="white"
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+              />
+            </svg>
+            Design work on <strong>@icesidmi</strong>'s Instagram
+          </a>
+        </footer>
+      </main>
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

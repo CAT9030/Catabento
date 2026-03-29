@@ -1,0 +1,146 @@
+/* ── Page wrapper ── */
+.page {
+  display: flex;
+  min-height: 100vh;
+  padding: var(--page-padding);
+  gap: 116px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 380px;
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--page-padding);
+  align-self: flex-start;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Área de contenido ── */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  min-width: 0;
+}
+
+/* ── Bento grid — two independent flex columns ── */
+.bento-grid {
+  display: flex;
+  gap: var(--bento-gap);
+  align-items: flex-start;
+}
+
+.bento-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bento-gap);
+}
+
+/* ── Footer link ── */
+.footer-link {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0 8px;
+}
+
+/* ─────────────────────────────
+   BREAKPOINTS
+   ───────────────────────────── */
+
+/* Desktop explícito: ≥1200px hereda layout base (sidebar + 2 cols) */
+@media (min-width: 1200px) {
+  .page {
+    flex-direction: row;
+  }
+}
+
+/* ≤1199px: página en columna, sidebar reset de props de desktop */
+@media (max-width: 1199px) {
+  .page {
+    flex-direction: column;
+    padding: 32px 24px;
+    gap: 24px;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: static;
+  }
+}
+
+/* ≤1024px: tokens reducidos para bento grid */
+@media (max-width: 1024px) {
+  :root {
+    --bento-gap: 16px;
+  }
+
+  .page {
+    gap: 20px;
+  }
+}
+
+/* 769–1198px: sidebar grid de 2 columnas (avatar izq, nombre+bio der) */
+@media (min-width: 769px) and (max-width: 1198px) {
+  .sidebar {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    column-gap: 28px;
+    row-gap: 16px;
+    align-items: start;
+    text-align: left;
+    padding: 32px 0;
+  }
+}
+
+/* ≤768px: sidebar columna izquierda, mobile */
+@media (max-width: 768px) {
+  .page {
+    padding: 24px 20px;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 12px;
+    padding: 24px 0;
+  }
+}
+
+/* ≤900px: columna única — bento-col se disuelve, order controla posición */
+@media (max-width: 900px) {
+  .bento-grid {
+    flex-direction: column;
+  }
+
+  .bento-col {
+    display: contents;
+  }
+
+  .card-quote     { order: 1; }
+  .card-hero      { order: 2; }
+  .card-behance   { order: 3; }
+  .card-instagram { order: 4; }
+  .card-right-col { order: 5; }
+  .card-projects  { order: 6; }
+}
+
+/* Mobile (≤480px) */
+@media (max-width: 480px) {
+  .page {
+    padding: 16px;
+  }
+
+  :root {
+    --card-padding: 16px;
+  }
+}
