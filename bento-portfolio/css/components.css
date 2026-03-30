@@ -1,3 +1,73 @@
+/* ── Theme transition global ── */
+body,
+.page,
+.card,
+.sidebar,
+.btn-doc,
+.footer-ig-link,
+.doc-modal__panel,
+.doc-modal__loader,
+.doc-modal__header {
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
+}
+
+/* ── Theme toggle button ── */
+.theme-toggle {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  z-index: 500;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-card);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    box-shadow var(--duration) var(--ease),
+    transform var(--duration) var(--ease);
+}
+
+.theme-toggle:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  transform: scale(1.08);
+}
+
+.theme-toggle__icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: opacity 0.2s var(--ease), transform 0.3s var(--ease);
+}
+
+/* light mode: mostrar luna, ocultar sol */
+.theme-toggle__icon--sun {
+  display: none;
+}
+.theme-toggle__icon--moon {
+  display: block;
+}
+
+/* dark mode: mostrar sol, ocultar luna */
+[data-theme="dark"] .theme-toggle__icon--sun {
+  display: block;
+}
+[data-theme="dark"] .theme-toggle__icon--moon {
+  display: none;
+}
+
 /* ── Card base ── */
 .card {
   background: var(--color-card);
@@ -24,32 +94,31 @@
 }
 
 .sidebar__name {
-  font: 700 clamp(26px, 2vw, 36px) / 1.15 var(--font-display);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(26px, 2vw, 36px);
+  line-height: 1.15;
+  letter-spacing: 0;
 }
 
 .sidebar__bio {
-  font: 400 18px / 1.65 var(--font-body);
+  font-family: var(--font-body);
+  font-weight: 350;
+  font-size: 18px;
+  line-height: 1.6;
+  letter-spacing: 0;
   color: var(--color-text-secondary);
   max-width: 420px;
 }
 
 .sidebar__dots {
   display: flex;
-  gap: 6px;
+  align-items: center;
 }
 
-.sidebar__dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-
-.sidebar__dot--on {
-  background: var(--color-dot-active);
-}
-
-.sidebar__dot--off {
-  background: var(--color-dot-idle);
+.sidebar__spark {
+  color: var(--color-dot-active);
+  display: block;
 }
 
 .sidebar__meta {
@@ -62,7 +131,10 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font: 400 18px var(--font-body);
+  font-family: var(--font-body);
+  font-weight: 350;
+  font-size: 18px;
+  letter-spacing: 0;
   color: var(--color-text-secondary);
 }
 
@@ -94,11 +166,16 @@
   color: var(--color-text-primary);
   display: block;
   margin-bottom: 16px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-body);
 }
 
 .card-quote__text {
-  font: 400 italic clamp(15px, 1.2vw, 18px) / 1.55 var(--font-display);
+  font-family: var(--font-body);
+  font-weight: 350;
+  font-style: normal;
+  font-size: clamp(15px, 1.2vw, 18px);
+  line-height: 1.55;
+  letter-spacing: 0;
   color: var(--color-text-primary);
 }
 
@@ -194,7 +271,10 @@
 }
 
 .social-card__subtitle {
-  font: 400 13px var(--font-body);
+  font-family: var(--font-body);
+  font-weight: 350;
+  font-size: 13px;
+  letter-spacing: 0;
   color: var(--color-text-secondary);
   display: block;
   min-width: 0;
@@ -235,10 +315,12 @@
 /* ── LinkedIn ── */
 .card-linkedin {
   padding: 0;
+  background: #0A66C2;
   overflow: hidden;
   display: block;
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
+  min-height: 160px;
   transition:
     box-shadow var(--duration) var(--ease),
     transform var(--duration) var(--ease);
@@ -249,10 +331,52 @@
   transform: translateY(-2px);
 }
 
-.card-linkedin img {
-  width: 100%;
-  display: block;
-  object-fit: cover;
+.linkedin-card__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 160px;
+  padding: 28px 28px;
+}
+
+.linkedin-card__logo {
+  width: 36px;
+  height: 36px;
+  background: white;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.linkedin-card__logo svg {
+  width: 22px;
+  height: 22px;
+  fill: #0A66C2;
+}
+
+.linkedin-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.linkedin-card__title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 16px;
+  color: #ffffff;
+  letter-spacing: 0;
+}
+
+.linkedin-card__handle {
+  font-family: var(--font-body);
+  font-weight: 350;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0;
 }
 
 /* ── Proyectos Nobel + Fruto ── */
@@ -260,12 +384,14 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--gap);
+  flex: 1;
 }
 
 .project-img-card {
   border-radius: var(--radius-card);
   overflow: hidden;
   display: block;
+  height: 100%;
   box-shadow: var(--shadow-card);
   transition:
     box-shadow var(--duration) var(--ease),
@@ -279,7 +405,7 @@
 
 .project-img-card img {
   width: 100%;
-  aspect-ratio: 2 / 4;
+  height: 100%;
   object-fit: cover;
   display: block;
 }
@@ -289,6 +415,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--gap);
+  flex: 1;
 }
 
 /* ── Video ── */
@@ -357,20 +484,24 @@
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   color: white;
-  font: 600 11px var(--font-body);
+  font-family: var(--font-body);
+  font-weight: 350;
+  font-size: 11px;
   padding: 4px 10px;
   border-radius: var(--radius-btn);
-  letter-spacing: 0.05em;
+  letter-spacing: 0;
 }
 
 /* ── Dynamite ── */
 .card-dynamite {
   padding: 0;
+  flex: 1;
+  display: flex;
 }
 
 .card-dynamite img {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 100%;
   object-fit: cover;
   display: block;
 }
@@ -392,7 +523,10 @@ behold-widget {
   border-radius: var(--radius-btn);
   padding: 16px 24px;
   box-shadow: var(--shadow-card);
-  font: 500 14px var(--font-body);
+  font-family: var(--font-body);
+  font-weight: 350;
+  font-size: 14px;
+  letter-spacing: 0;
   color: var(--color-text-primary);
   transition:
     box-shadow var(--duration) var(--ease),
@@ -456,6 +590,201 @@ behold-widget {
   }
 }
 
+/* ── Doc buttons ── */
+.sidebar__docs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.btn-doc {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-btn);
+  border: none;
+  background: var(--color-card);
+  box-shadow: var(--shadow-card);
+  font-family: var(--font-body);
+  font-weight: 350;
+  font-size: 13px;
+  letter-spacing: 0;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition:
+    box-shadow var(--duration) var(--ease),
+    transform var(--duration) var(--ease);
+}
+
+.btn-doc:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+
+.btn-doc svg {
+  flex-shrink: 0;
+}
+
+/* ── Doc modal ── */
+.doc-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.doc-modal[hidden] {
+  display: none;
+}
+
+.doc-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(42, 42, 42, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.doc-modal__panel {
+  position: relative;
+  z-index: 1;
+  width: 90vw;
+  max-width: 1100px;
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: 0 8px 40px rgba(164, 1, 3, 0.14);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 92vh;
+}
+
+.doc-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.doc-modal__title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doc-modal__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn-doc-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-btn);
+  background: var(--color-text-primary);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-weight: 350;
+  font-size: 13px;
+  letter-spacing: 0;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    opacity var(--duration) var(--ease),
+    transform var(--duration) var(--ease);
+}
+
+.btn-doc-download:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.doc-modal__close {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  transition: background var(--duration);
+}
+
+.doc-modal__close:hover {
+  background: var(--color-border);
+}
+
+.doc-modal__frame {
+  width: 100%;
+  flex: 1;
+  border: none;
+  min-height: 0;
+  display: block;
+  visibility: hidden;
+}
+
+.doc-modal__frame.is-ready {
+  visibility: visible;
+}
+
+/* ── Modal loader ── */
+.doc-modal__loader {
+  position: absolute;
+  inset: 0;
+  top: 57px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: var(--color-card);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-weight: 350;
+  font-size: 13px;
+  letter-spacing: 0;
+  z-index: 2;
+  transition: opacity var(--duration) var(--ease);
+}
+
+.doc-modal__loader.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.doc-modal__spinner {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-text-primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* ── ≤768px: mobile, elementos alineados a la izquierda ── */
 @media (max-width: 768px) {
   .sidebar__avatar {
@@ -479,4 +808,60 @@ behold-widget {
   .sidebar__meta-item {
     font-size: 14px;
   }
+}
+
+/* ── Dark mode component overrides ── */
+
+/* Cards — borde separador sutil */
+[data-theme="dark"] .card,
+[data-theme="dark"] .project-img-card {
+  border: 1px solid #2A2A2A;
+}
+
+/* Avatar — glow sutil */
+[data-theme="dark"] .sidebar__avatar {
+  box-shadow: 0 0 0 2px #2A2A2A;
+}
+
+/* Quote — comillas visibles en dark */
+[data-theme="dark"] .card-quote__icon {
+  color: #888888;
+}
+
+/* Botones CV / Resume — outline style */
+[data-theme="dark"] .btn-doc {
+  background: transparent;
+  border: 1px solid #3A3A3A;
+  color: #D0D0D0;
+  box-shadow: none;
+}
+
+[data-theme="dark"] .btn-doc:hover {
+  background: #2A2A2A;
+  box-shadow: none;
+  transform: translateY(-1px);
+}
+
+/* Footer link */
+[data-theme="dark"] .footer-ig-link {
+  background: #161616;
+  color: #A0A0A0;
+  box-shadow: none;
+  border: 1px solid #2A2A2A;
+}
+
+/* Subtítulos de social cards en dark */
+[data-theme="dark"] .social-card__subtitle {
+  color: #C0C0C0;
+}
+
+/* Toggle button — ícono sol en blanco roto */
+[data-theme="dark"] .theme-toggle {
+  color: #D0D0D0;
+  border-color: #3A3A3A;
+}
+
+/* Doc modal overlay — más oscuro en dark */
+[data-theme="dark"] .doc-modal__overlay {
+  background: rgba(0, 0, 0, 0.75);
 }

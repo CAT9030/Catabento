@@ -14,10 +14,15 @@ html {
 body {
   margin: 0;
   font-family: var(--font-body);
+  font-weight: 350;
+  letter-spacing: 0;
   background: var(--color-bg);
   color: var(--color-text-primary);
   line-height: 1.5;
   min-height: 100vh;
+  transition:
+    background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 img,

@@ -1,0 +1,65 @@
+/* ── Neue Regrade — local ── */
+@font-face {
+  font-family: 'Neue Regrade';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/NeueRegrade-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Neue Regrade';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/NeueRegrade-Bold.otf') format('opentype');
+}
+
+/* ── Aspekta — jsDelivr CDN (OFL 1.1) ── */
+@font-face {
+  font-family: 'Aspekta';
+  font-style: normal;
+  font-weight: 350;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/ivodolenc/aspekta@master/packages/fonts/webfonts/Aspekta-350.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Aspekta';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/ivodolenc/aspekta@master/packages/fonts/webfonts/Aspekta-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Aspekta';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/ivodolenc/aspekta@master/packages/fonts/webfonts/Aspekta-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Aspekta';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/ivodolenc/aspekta@master/packages/fonts/webfonts/Aspekta-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Aspekta';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/ivodolenc/aspekta@master/packages/fonts/webfonts/Aspekta-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Aspekta';
+  font-style: normal;
+  font-weight: 750;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/ivodolenc/aspekta@master/packages/fonts/webfonts/Aspekta-750.woff2') format('woff2');
+}

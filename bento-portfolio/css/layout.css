@@ -19,6 +19,8 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  background: var(--color-sidebar);
+  transition: background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* ── Área de contenido ── */
@@ -34,13 +36,14 @@
 .bento-grid {
   display: flex;
   gap: var(--bento-gap);
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .bento-col {
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: var(--bento-gap);
 }
 
@@ -120,6 +123,7 @@
 @media (max-width: 900px) {
   .bento-grid {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .bento-col {

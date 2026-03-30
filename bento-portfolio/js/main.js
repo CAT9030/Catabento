@@ -2,6 +2,53 @@
    main.js — Comportamiento mínimo, sin dependencias
    ============================================================ */
 
+/* ── 0. Favicon circular generado via Canvas ── */
+(function initCircularFavicon() {
+  const size = 64;
+  const img = new Image();
+  img.onload = function () {
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+    ctx.drawImage(img, 0, 0, size, size);
+    const link = document.querySelector("link[rel='icon']") || document.createElement('link');
+    link.rel = 'icon';
+    link.href = canvas.toDataURL('image/png');
+    document.head.appendChild(link);
+  };
+  img.src = 'assets/profile/avatar.jpg';
+})();
+
+/* ── 0. Dark / Light mode toggle ── */
+(function initThemeToggle() {
+  const STORAGE_KEY = 'cata-theme';
+  const btn = document.getElementById('themeToggle');
+  if (!btn) return;
+
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const saved = localStorage.getItem(STORAGE_KEY);
+  const isDark = saved ? saved === 'dark' : prefersDark;
+
+  function applyTheme(dark) {
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    btn.setAttribute('aria-label', dark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+  }
+
+  applyTheme(isDark);
+
+  btn.addEventListener('click', () => {
+    const currentlyDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const next = !currentlyDark;
+    applyTheme(next);
+    localStorage.setItem(STORAGE_KEY, next ? 'dark' : 'light');
+  });
+})();
+
 /* ── 1. Lazy-load robusto con IntersectionObserver ── */
 (function initLazyLoad() {
   if (!("IntersectionObserver" in window)) {
@@ -112,7 +159,70 @@
   });
 })();
 
-/* ── 4. Behance feed en tiempo real (RSS → rss2json) ── */
+/* ── 4. Doc preview modal (CV / Resume) ── */
+(function initDocModal() {
+  const modal    = document.getElementById('docModal');
+  const overlay  = document.getElementById('docModalOverlay');
+  const frame    = document.getElementById('docModalFrame');
+  const dlBtn    = document.getElementById('docDownloadBtn');
+  const closeBtn = document.getElementById('docModalClose');
+  const title    = document.getElementById('docModalTitle');
+  const loader   = document.getElementById('docModalLoader');
+
+  if (!modal) return;
+
+  let loaderTimeout;
+
+  frame.addEventListener('load', () => {
+    loader.classList.add('is-hidden');
+    frame.classList.add('is-ready');
+    clearTimeout(loaderTimeout);
+  });
+
+  function openModal(src, label) {
+    dlBtn.href            = src;
+    dlBtn.download        = label.replace(/\s*—\s*/, ' ').trim() + '.pdf';
+    title.textContent     = label;
+    frame.classList.remove('is-ready');
+    loader.classList.remove('is-hidden');
+    modal.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => {
+      frame.setAttribute('src', src);
+      loaderTimeout = setTimeout(() => {
+        loader.classList.add('is-hidden');
+        frame.classList.add('is-ready');
+      }, 8000);
+    });
+    closeBtn.focus();
+  }
+
+  function closeModal() {
+    modal.setAttribute('hidden', '');
+    frame.removeAttribute('src');
+    frame.classList.remove('is-ready');
+    loader.classList.remove('is-hidden');
+    clearTimeout(loaderTimeout);
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.btn-doc').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      openModal(btn.dataset.doc, btn.dataset.label);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.hasAttribute('hidden')) {
+      closeModal();
+    }
+  });
+})();
+
+/* ── 5. Behance feed en tiempo real (RSS → rss2json) ── */
 (function initBehanceFeed() {
   const grid = document.querySelector("[data-behance-grid]");
   if (!grid) return;
