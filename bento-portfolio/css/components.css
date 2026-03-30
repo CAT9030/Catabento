@@ -716,6 +716,10 @@ behold-widget {
   transform: translateY(-1px);
 }
 
+[data-theme="dark"] .btn-doc-download {
+  color: #000000;
+}
+
 .doc-modal__close {
   width: 32px;
   height: 32px;
