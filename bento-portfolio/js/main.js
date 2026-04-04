@@ -297,6 +297,7 @@
 (function initProjectInfoPopover() {
   const popover = document.getElementById('projectInfoPopover');
   const bodyEl = document.getElementById('projectPopoverBody');
+  const closeBtn = document.getElementById('projectPopoverClose');
   const triggers = document.querySelectorAll('[data-project-template]');
 
   if (!popover || !bodyEl || triggers.length === 0) return;
@@ -404,6 +405,13 @@
       cancelAnimationFrame(rafId);
       rafId = 0;
     }
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hide();
+    });
   }
 
   function showPointer(trigger, clientX, clientY) {
