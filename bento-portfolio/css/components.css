@@ -389,7 +389,7 @@ body,
 
 .project-img-card {
   border-radius: var(--radius-card);
-  overflow: hidden;
+  overflow: visible;
   display: block;
   height: 100%;
   box-shadow: var(--shadow-card);
@@ -403,11 +403,39 @@ body,
   transform: translateY(-2px);
 }
 
+.project-img-card__media {
+  border-radius: inherit;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.project-img-card__media img,
 .project-img-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.project-img-card--peek {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.project-img-card--peek:focus {
+  outline: none;
+}
+
+.project-img-card--peek:focus-visible {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 3px;
 }
 
 /* ── Columna derecha ── */
@@ -472,6 +500,18 @@ body,
   fill: white;
 }
 
+.card-video__btn-toggle .card-video__toggle-icon--pause {
+  display: none;
+}
+
+.card-video__btn-toggle.is-playing .card-video__toggle-icon--play {
+  display: none;
+}
+
+.card-video__btn-toggle.is-playing .card-video__toggle-icon--pause {
+  display: block;
+}
+
 .card-video__controls-spacer {
   flex: 1;
 }
@@ -497,13 +537,88 @@ body,
   padding: 0;
   flex: 1;
   display: flex;
+  box-shadow: var(--shadow-card);
+  transition:
+    box-shadow var(--duration) var(--ease),
+    transform var(--duration) var(--ease);
 }
 
-.card-dynamite img {
+.card-dynamite:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.card-dynamite.project-img-card--peek {
+  width: 100%;
+}
+
+.card-dynamite .project-img-card__media {
+  flex: 1;
+  min-height: 0;
+}
+
+.card-dynamite .project-img-card__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* ── Popover proyectos (referencia contextual tipo WhatsApp) ── */
+.project-popover {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 600;
+  width: max-content;
+  max-width: min(300px, calc(100vw - 24px));
+  max-height: min(320px, 72vh);
+  padding: 0;
+  margin: 0;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #1e1e1e;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.35),
+    0 16px 48px rgba(0, 0, 0, 0.28);
+  color: #f3f3f3;
+  pointer-events: none;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.project-popover.is-interactive {
+  pointer-events: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.project-popover[hidden] {
+  display: none !important;
+}
+
+.project-popover__inner {
+  padding: 14px 16px 16px;
+}
+
+.project-popover__title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.3;
+  margin: 0 0 10px;
+  color: #ffffff;
+  letter-spacing: 0;
+}
+
+.project-popover__text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 350;
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* ── Behold Instagram widget ── */
@@ -749,6 +864,109 @@ behold-widget {
 
 .doc-modal__frame.is-ready {
   visibility: visible;
+}
+
+.doc-modal__panel.is-markdown .doc-modal__frame {
+  display: none;
+}
+
+.doc-modal__markdown {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 24px 28px 32px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+.doc-modal__markdown[hidden] {
+  display: none !important;
+}
+
+.doc-modal__markdown h1 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
+}
+
+.doc-modal__markdown h2 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 28px 0 10px;
+}
+
+.doc-modal__markdown h2:first-of-type {
+  margin-top: 20px;
+}
+
+.doc-modal__markdown p {
+  margin: 0 0 10px;
+}
+
+.doc-modal__markdown strong {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.doc-modal__markdown em {
+  font-style: italic;
+}
+
+.doc-modal__markdown hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 20px 0;
+}
+
+.doc-modal__markdown ul {
+  margin: 8px 0 12px;
+  padding-left: 1.25em;
+}
+
+.doc-modal__markdown li {
+  margin: 6px 0;
+}
+
+.doc-modal__markdown li::marker {
+  color: var(--color-text-muted);
+}
+
+.doc-modal__markdown a {
+  color: #ef233c;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.doc-modal__markdown a:hover {
+  opacity: 0.85;
+}
+
+.doc-modal__markdown code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.9em;
+  background: var(--color-border);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.doc-modal__md-fallback {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.doc-modal__md-error {
+  margin: 0;
+  color: var(--color-text-muted);
 }
 
 /* ── Modal loader ── */

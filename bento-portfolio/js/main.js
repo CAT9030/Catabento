@@ -113,6 +113,18 @@
     const video = card?.querySelector("video");
     if (!video) return;
 
+    function syncPlayPauseButton() {
+      const playing = !video.paused;
+      btn.classList.toggle("is-playing", playing);
+      btn.setAttribute("aria-label", playing ? "Pausar" : "Reproducir");
+      btn.setAttribute("aria-pressed", playing ? "true" : "false");
+    }
+
+    ["play", "pause", "ended"].forEach((ev) => {
+      video.addEventListener(ev, syncPlayPauseButton);
+    });
+    syncPlayPauseButton();
+
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -159,29 +171,44 @@
   });
 })();
 
-/* ── 4. Doc preview modal (CV / Resume) ── */
+/* ── 4. Doc preview modal (CV / Resume / CV.md) ── */
 (function initDocModal() {
   const modal    = document.getElementById('docModal');
+  const panel    = document.getElementById('docModalPanel');
   const overlay  = document.getElementById('docModalOverlay');
   const frame    = document.getElementById('docModalFrame');
+  const mdBody   = document.getElementById('docModalMarkdown');
   const dlBtn    = document.getElementById('docDownloadBtn');
   const closeBtn = document.getElementById('docModalClose');
   const title    = document.getElementById('docModalTitle');
   const loader   = document.getElementById('docModalLoader');
 
-  if (!modal) return;
+  if (!modal || !panel || !frame || !mdBody) return;
 
   let loaderTimeout;
+  let markdownMode = false;
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
 
   frame.addEventListener('load', () => {
+    if (markdownMode) return;
     loader.classList.add('is-hidden');
     frame.classList.add('is-ready');
     clearTimeout(loaderTimeout);
   });
 
-  function openModal(src, label) {
+  function openModalPdf(src, label) {
+    clearTimeout(loaderTimeout);
+    markdownMode = false;
+    panel.classList.remove('is-markdown');
+    mdBody.innerHTML = '';
+    mdBody.setAttribute('hidden', '');
     dlBtn.href            = src;
-    dlBtn.download        = label.replace(/\s*—\s*/, ' ').trim() + '.pdf';
+    dlBtn.download        = src.split('/').pop() || 'document.pdf';
     title.textContent     = label;
     frame.classList.remove('is-ready');
     loader.classList.remove('is-hidden');
@@ -197,18 +224,62 @@
     closeBtn.focus();
   }
 
+  async function openModalMarkdown(src, label) {
+    clearTimeout(loaderTimeout);
+    markdownMode = true;
+    panel.classList.add('is-markdown');
+    frame.removeAttribute('src');
+    frame.classList.remove('is-ready');
+    mdBody.innerHTML = '';
+    mdBody.removeAttribute('hidden');
+    title.textContent = label;
+    dlBtn.href = src;
+    const fileName = src.split('/').pop() || 'CV.md';
+    dlBtn.download = fileName;
+    loader.classList.remove('is-hidden');
+    modal.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+
+    try {
+      const res = await fetch(src);
+      if (!res.ok) throw new Error('fetch failed');
+      const text = await res.text();
+      if (typeof marked !== 'undefined' && typeof marked.parse === 'function') {
+        marked.setOptions({ breaks: true, gfm: true });
+        mdBody.innerHTML = marked.parse(text);
+      } else {
+        mdBody.innerHTML = `<pre class="doc-modal__md-fallback">${escapeHtml(text)}</pre>`;
+      }
+    } catch {
+      mdBody.innerHTML =
+        '<p class="doc-modal__md-error">No se pudo cargar el CV en Markdown.</p>';
+    }
+    loader.classList.add('is-hidden');
+    closeBtn.focus();
+  }
+
   function closeModal() {
+    clearTimeout(loaderTimeout);
+    markdownMode = false;
+    panel.classList.remove('is-markdown');
+    mdBody.innerHTML = '';
+    mdBody.setAttribute('hidden', '');
     modal.setAttribute('hidden', '');
     frame.removeAttribute('src');
     frame.classList.remove('is-ready');
     loader.classList.remove('is-hidden');
-    clearTimeout(loaderTimeout);
     document.body.style.overflow = '';
   }
 
-  document.querySelectorAll('.btn-doc').forEach((btn) => {
+  document.querySelectorAll('.btn-doc[data-doc]').forEach((btn) => {
     btn.addEventListener('click', () => {
-      openModal(btn.dataset.doc, btn.dataset.label);
+      openModalPdf(btn.dataset.doc, btn.dataset.label);
+    });
+  });
+
+  document.querySelectorAll('.btn-doc[data-doc-md]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      openModalMarkdown(btn.dataset.docMd, btn.dataset.label);
     });
   });
 
@@ -222,7 +293,246 @@
   });
 })();
 
-/* ── 5. Behance feed en tiempo real (RSS → rss2json) ── */
+/* ── 5. Project info popover (cursor en desktop, toque en coarse / sin hover) ── */
+(function initProjectInfoPopover() {
+  const popover = document.getElementById('projectInfoPopover');
+  const bodyEl = document.getElementById('projectPopoverBody');
+  const triggers = document.querySelectorAll('[data-project-template]');
+
+  if (!popover || !bodyEl || triggers.length === 0) return;
+
+  const MARGIN = 12;
+  const GAP = 14;
+
+  let activeTrigger = null;
+  let rafId = 0;
+  let lastX = 0;
+  let lastY = 0;
+  let hideAfterLeaveTimer = null;
+
+  function useTouchMode() {
+    return (
+      window.matchMedia('(hover: none)').matches ||
+      window.matchMedia('(pointer: coarse)').matches
+    );
+  }
+
+  function cancelHideDelay() {
+    if (hideAfterLeaveTimer) {
+      clearTimeout(hideAfterLeaveTimer);
+      hideAfterLeaveTimer = null;
+    }
+  }
+
+  function fillContent(trigger) {
+    const tid = trigger.getAttribute('data-project-template');
+    const tpl = tid ? document.getElementById(tid) : null;
+    if (!tpl) return false;
+    bodyEl.innerHTML = '';
+    bodyEl.appendChild(tpl.content.cloneNode(true));
+    const h3 = bodyEl.querySelector('h3');
+    if (h3) h3.id = 'projectPopoverHeading';
+    return true;
+  }
+
+  function positionFromMouse(clientX, clientY) {
+    if (!activeTrigger) return;
+    popover.removeAttribute('hidden');
+    const w = popover.offsetWidth;
+    const h = popover.offsetHeight;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    let left = clientX + GAP;
+    let top = clientY - h / 2;
+
+    if (left + w + MARGIN > vw) {
+      left = clientX - GAP - w;
+    }
+
+    left = Math.min(Math.max(MARGIN, left), vw - w - MARGIN);
+    top = Math.min(Math.max(MARGIN, top), vh - h - MARGIN);
+
+    popover.style.left = `${Math.round(left)}px`;
+    popover.style.top = `${Math.round(top)}px`;
+  }
+
+  function scheduleMousePos(x, y) {
+    lastX = x;
+    lastY = y;
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      rafId = 0;
+      positionFromMouse(lastX, lastY);
+    });
+  }
+
+  function positionFromTrigger(trigger) {
+    const r = trigger.getBoundingClientRect();
+    popover.removeAttribute('hidden');
+    const w = popover.offsetWidth;
+    const h = popover.offsetHeight;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    const spaceRight = vw - r.right - MARGIN;
+    const spaceLeft = r.left - MARGIN;
+    let left =
+      spaceRight >= w + GAP || spaceRight >= spaceLeft
+        ? r.right + GAP
+        : r.left - GAP - w;
+
+    let top = r.top + (r.height - h) / 2;
+    left = Math.min(Math.max(MARGIN, left), vw - w - MARGIN);
+    top = Math.min(Math.max(MARGIN, top), vh - h - MARGIN);
+
+    popover.style.left = `${Math.round(left)}px`;
+    popover.style.top = `${Math.round(top)}px`;
+  }
+
+  function hide() {
+    cancelHideDelay();
+    popover.setAttribute('hidden', '');
+    popover.classList.remove('is-interactive');
+    popover.style.left = '';
+    popover.style.top = '';
+    if (activeTrigger) {
+      activeTrigger.setAttribute('aria-expanded', 'false');
+      activeTrigger = null;
+    }
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
+    }
+  }
+
+  function showPointer(trigger, clientX, clientY) {
+    if (!fillContent(trigger)) return;
+    activeTrigger = trigger;
+    trigger.setAttribute('aria-expanded', 'true');
+    popover.classList.remove('is-interactive');
+    lastX = clientX;
+    lastY = clientY;
+    scheduleMousePos(clientX, clientY);
+  }
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener('mouseenter', (e) => {
+      if (useTouchMode()) return;
+      cancelHideDelay();
+      showPointer(trigger, e.clientX, e.clientY);
+    });
+
+    trigger.addEventListener('mousemove', (e) => {
+      if (useTouchMode()) return;
+      if (activeTrigger !== trigger) return;
+      scheduleMousePos(e.clientX, e.clientY);
+    });
+
+    trigger.addEventListener('mouseleave', () => {
+      if (useTouchMode()) return;
+      if (activeTrigger !== trigger) return;
+      if (document.activeElement === trigger) return;
+      hideAfterLeaveTimer = window.setTimeout(() => {
+        hideAfterLeaveTimer = null;
+        if (useTouchMode()) return;
+        if (activeTrigger !== trigger) return;
+        if (document.activeElement === trigger) return;
+        hide();
+      }, 180);
+    });
+
+    trigger.addEventListener('focus', () => {
+      if (useTouchMode()) return;
+      cancelHideDelay();
+      if (!fillContent(trigger)) return;
+      activeTrigger = trigger;
+      trigger.setAttribute('aria-expanded', 'true');
+      popover.classList.remove('is-interactive');
+      popover.removeAttribute('hidden');
+      requestAnimationFrame(() => positionFromTrigger(trigger));
+    });
+
+    trigger.addEventListener('blur', () => {
+      if (useTouchMode()) return;
+      window.setTimeout(() => {
+        if (activeTrigger !== trigger) return;
+        hide();
+      }, 0);
+    });
+
+    trigger.addEventListener('click', (e) => {
+      if (!useTouchMode()) return;
+      e.preventDefault();
+      if (activeTrigger === trigger) {
+        hide();
+        return;
+      }
+      cancelHideDelay();
+      if (!fillContent(trigger)) return;
+      activeTrigger = trigger;
+      trigger.setAttribute('aria-expanded', 'true');
+      popover.classList.add('is-interactive');
+      popover.removeAttribute('hidden');
+      requestAnimationFrame(() => positionFromTrigger(trigger));
+    });
+
+    trigger.addEventListener('keydown', (e) => {
+      if (!useTouchMode()) return;
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      e.preventDefault();
+      trigger.click();
+    });
+  });
+
+  document.addEventListener(
+    'click',
+    (e) => {
+      if (!useTouchMode()) return;
+      if (popover.hasAttribute('hidden')) return;
+      if (popover.contains(e.target)) return;
+      if ([...triggers].some((t) => t.contains(e.target))) return;
+      hide();
+    },
+    true
+  );
+
+  document.addEventListener(
+    'keydown',
+    (e) => {
+      if (e.key !== 'Escape') return;
+      if (popover.hasAttribute('hidden')) return;
+      hide();
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    },
+    true
+  );
+
+  window.addEventListener('resize', () => {
+    if (popover.hasAttribute('hidden') || !activeTrigger) return;
+    if (useTouchMode()) {
+      requestAnimationFrame(() => positionFromTrigger(activeTrigger));
+    } else {
+      scheduleMousePos(lastX, lastY);
+    }
+  });
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (popover.hasAttribute('hidden') || !activeTrigger) return;
+      if (useTouchMode()) {
+        positionFromTrigger(activeTrigger);
+      } else {
+        scheduleMousePos(lastX, lastY);
+      }
+    },
+    true
+  );
+})();
+
+/* ── 6. Behance feed en tiempo real (RSS → rss2json) ── */
 (function initBehanceFeed() {
   const grid = document.querySelector("[data-behance-grid]");
   if (!grid) return;
