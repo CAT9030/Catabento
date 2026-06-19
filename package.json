@@ -1,0 +1,11 @@
+{
+  "name": "catabento",
+  "private": true,
+  "scripts": {
+    "dev": "serve bento-portfolio -l 8080",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}
