@@ -554,6 +554,17 @@
     .then((r) => r.json())
     .then(({ status, items }) => {
       if (status !== "ok" || !items?.length) return;
+      const fallbackHTML = grid.innerHTML;
+      grid.addEventListener(
+        "error",
+        (e) => {
+          // si una miniatura remota falla (hotlink bloqueado), vuelve a las locales
+          if (e.target.tagName === "IMG" && grid.innerHTML !== fallbackHTML) {
+            grid.innerHTML = fallbackHTML;
+          }
+        },
+        true
+      );
       grid.innerHTML = items
         .slice(0, 6)
         .map(
@@ -564,7 +575,7 @@
              rel="noopener noreferrer"
              role="listitem"
              aria-label="${title}">
-            <img src="${thumbnail}" alt="${title}" loading="lazy" />
+            <img src="${thumbnail}" alt="${title}" loading="lazy" referrerpolicy="no-referrer" />
           </a>`
         )
         .join("");
